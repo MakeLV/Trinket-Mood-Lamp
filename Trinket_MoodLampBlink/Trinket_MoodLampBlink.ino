@@ -7,7 +7,7 @@
 // We'll give each a name:
 int redLed = 1;
 int greenLed = 2;
-int blueLed = 3;
+int blueLed = 4;
 
 int pause = 1000;
 
