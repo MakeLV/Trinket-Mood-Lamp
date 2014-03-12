@@ -5,8 +5,8 @@
  
 // Pins 1, 2, and 3 have an LED connected.
 // We will give each a name
-const int redLed = 1;
-const int greenLed = 2;
+const int redLed = 0;
+const int greenLed = 1;
 const int blueLed = 4;
 
 // Pin 3 has a button on it
@@ -31,7 +31,7 @@ void setup() {
   pinMode(button, INPUT);
   
   // initialize pin 4's PWM capability
-  pwm4_init();
+  PWM4_init();
 }
 
 // the loop routine runs over and over again forever:
@@ -45,23 +45,19 @@ void loop() {
     for (in = 0; in < 6.283; in = in + 0.001)
     {
       out = sin(in) * 127.5 + 127.5;
-      analogWrite(redLed,out);
+      analogWr(redLed,out);
     }
-
-    delay(pause);
 
     for (in = 0; in < 6.283; in = in + 0.001)
     {
       out = sin(in) * 127.5 + 127.5;
-      analogWrite(greenLed,out);
+      analogWr(greenLed,out);
     }
-
-    delay(pause);
 
     for (in = 0; in < 6.283; in = in + 0.001)
     {
       out = sin(in) * 127.5 + 127.5;
-      analogWrite4(blueLed,out);
+      analogWr(blueLed,out);
     }
 
   } else { // if the button state is off
@@ -82,7 +78,10 @@ OCR1B = 127; // duty cycle initialize to 50%
 OCR1C = 255; // frequency
 }
 
-// Function to allow analogWrite on Trinket GPIO #4
-void analogWrite4(uint8_t duty_value) {
-OCR1B = duty_value; // duty may be 0 to 255 (0 to 100%)
+void analogWr(int pin, uint8_t value) {
+  if (pin == 4) { 
+    OCR1B = value; // The PWM duty value between 0 and 255 (0 to 100%)
+ } else {
+    analogWrite(pin, value);
+ }
 }
