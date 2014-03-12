@@ -3,9 +3,10 @@ http://learn.adafruit.com/trinket-powered-analog-meter-clock/code
 
 "Trinket tinkers have noted that the analogWrite function will initiate pulse width modulation on pins #0 and #1 but not pin #4 (although the pin is PWM capable). The Arduino IDE does not set it up seamlessly. Function PWM4_init in the code above sets up the ATTiny85 Timer 1 to provide PWM at 50% duty cycle initially. Calls to the new function analogWrite4 will vary the PWM as desired. Using Timer 1 for PWM takes away its use for other things but for the clock project, it is not needed elsewhere. Just be sure some other code or library is not expecting to use it."
 
-// Set the PWM pin voltage from 0 to 255
-voltage = 200;
-analogWrite4(voltage);
+//Call the PWM4_init() function in your setup loop to prep pin 4.
+void setup() {
+  PWM4_init();
+}
 
 void PWM4_init() {
 // Set up PWM on Trinket GPIO #4 (PB4, pin 3) using Timer 1
@@ -19,3 +20,9 @@ OCR1C = 255; // frequency
 void analogWrite4(uint8_t duty_value) {
 OCR1B = duty_value; // duty may be 0 to 255 (0 to 100%)
 }
+
+// Set the PWM pin voltage from 0 to 255
+voltage = 200;
+analogWrite4(voltage);
+
+
