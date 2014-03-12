@@ -29,6 +29,9 @@ void setup() {
   pinMode(greenLed, OUTPUT);     
   pinMode(blueLed, OUTPUT);
   pinMode(button, INPUT);
+  
+  // initialize pin 4's PWM capability
+  pwm4_init();
 }
 
 // the loop routine runs over and over again forever:
