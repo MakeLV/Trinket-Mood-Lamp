@@ -1,28 +1,30 @@
 /*
   Trinket Mood Lamp
-  Pulsing and fading the lights  
+  Pulsing and fading the lights
+  
+  Make Lehigh Valley
  */
  
-// Pins 1, 2, and 3 have an LED connected.
-// We will give each a name
+// Pins 0, 1, and 4 have an LED connected.
+// We will give each a name cooresponding to the color
 const int redLed = 0;
 const int greenLed = 1;
 const int blueLed = 4;
 
-// Pin 3 has a button on it
-const int button = 3;
+// Pin 3 is an off button
+const int offbutton = 3;
 
-// These variables keep track the current 
-// button and light state.
-// 0 means off and 1 means on, so they start off.
-int buttonState = 0;
-byte lightState = 0;
+// Pin 2 is a mode button
+const int modebutton = 2;
+
+// This variable tracks what the current mode is
+int mode = 1;
 
 // How long should we pause in milliseconds 
 // 1000 == 1 second
 int pause = 500;
 
-// the setup routine runs once when you press reset:
+// the setup routine runs once when you press reset
 void setup() {                
   // initialize pin 4's PWM capability
   PWM4_init();
@@ -31,22 +33,51 @@ void setup() {
   pinMode(redLed, OUTPUT);     
   pinMode(greenLed, OUTPUT);     
   pinMode(blueLed, OUTPUT);
-  pinMode(button, INPUT);
+
+  // initialize the buttons as inputs.
+  pinMode(offbutton, INPUT);
+  pinMode(modebutton, INPUT);
+  
+  // Turn all the LEDs off to start
   analogWr(redLed, 0);
   analogWr(greenLed, 0);
   analogWr(blueLed, 0);
 }
 
-// the loop routine runs over and over again forever:
+// the loop routine runs over and over again forever
 void loop() {
-  buttonState = digitalRead(button);
   
-  if (buttonState == HIGH) { //if the button state is on, pulse the lights
+  // if the mode button is on, add one to the mode
+  if (digitalRead(modebutton) == LOW) { 
+    mode = mode + 1;
+  }
 
-    pulse(redLed);
-    pulse(greenLed);
-    pulse(blueLed);
+  //if the off button is on, run the lights otherwise turn them off.
+  if (digitalRead(offbutton) == HIGH) { 
 
+    // Detect what mode we are currently in and run cooresponding code
+    switch (mode) {
+      case 1:
+        // pulse each LED, one at a time
+        pulse(redLed);
+        pulse(greenLed);
+        pulse(blueLed);
+      case 2:
+        //blink each LED for "pause" milliseconds
+        digitalWrite(redLed, HIGH);
+        delay(pause);
+        digitalWrite(redLed, LOW);
+        digitalWrite(greenLed, HIGH);
+        delay(pause);
+        digitalWrite(greenLed, LOW);
+        digitalWrite(blueLed, HIGH);
+        delay(pause);
+        digitalWrite(blueLed, LOW);
+      default:
+        // if no other option is selected above, set it the mode to 1
+        mode = 1;
+    }
+    
   } else { // if the button state is off
 
     // turn off lights
@@ -61,7 +92,7 @@ void loop() {
 void pulse(int pin) {
   float in,out;
   
-  for (in = 0; in < 6.283; in = in + 0.001)
+  for (in = 1.5; in < 7.8; in = in + 0.001) 
   {
     out = sin(in) * 127.5 + 127.5;
     out = -(out - 255);
