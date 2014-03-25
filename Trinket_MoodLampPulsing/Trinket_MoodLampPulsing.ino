@@ -62,17 +62,17 @@ void loop() {
         pulse(redLed);
         pulse(greenLed);
         pulse(blueLed);
-      case 2:
+      //case 2: //this code causes erratic behavior in some of the Trinkets. The mode button probably needs to be debounced.
         //blink each LED for "pause" milliseconds
-        digitalWrite(redLed, HIGH);
-        delay(pause);
-        digitalWrite(redLed, LOW);
-        digitalWrite(greenLed, HIGH);
-        delay(pause);
-        digitalWrite(greenLed, LOW);
-        digitalWrite(blueLed, HIGH);
-        delay(pause);
-        digitalWrite(blueLed, LOW);
+        //digitalWrite(redLed, HIGH);
+        //delay(pause);
+        //digitalWrite(redLed, LOW);
+        //digitalWrite(greenLed, HIGH);
+        //delay(pause);
+        //digitalWrite(greenLed, LOW);
+        //digitalWrite(blueLed, HIGH);
+        //delay(pause);
+        //digitalWrite(blueLed, LOW);
       default:
         // if no other option is selected above, set it the mode to 1
         mode = 1;
